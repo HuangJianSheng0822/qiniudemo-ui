@@ -47,10 +47,10 @@
             label-width="120px"
             :label-position="'left'"
             :rules="rules"
-            ref="form">
+            ref="formRef">
 
           <el-form-item label="封面" prop="coverUrl">
-            <upload-img-qiniu></upload-img-qiniu>
+            <upload-img-qiniu @file-name="updateCoverUrl"></upload-img-qiniu>
           </el-form-item>
 
 
@@ -98,12 +98,16 @@
 <script setup>
 import {ref} from "vue";
 import UploadImgQiniu from "@/components/qiniu/upload-img-qiniu.vue";
+import {addVideoApi, getUploadAuthApi} from "@/api/video";
+import * as qiniu from "qiniu-js";
 const showUpload=ref(true); //是否显示上传界面
 const authProgress=ref(0) // 上传进度
 // eslint-disable-next-line no-unused-vars
 const uploadDisabled=ref(true);// 开始，此时不能点击
 const resumeDisabled=ref(false); // 恢复上传
 const pauseDisabled=ref(true); // 恢复上传
+const fileName=ref(null);//文件名,作为视频id
+const formRef=ref(null)
 const form=ref({
   videoId:'',
   coverUrl:'',
@@ -121,7 +125,7 @@ const rules=ref({
     { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
   ],
   typeId: [
-    { required: true, message: '请选择活动区域', trigger: 'change' }
+    { required: true, message: '请选择', trigger: 'change' }
   ],
   description: [
     { required: false, message: '', trigger: 'blur' }
@@ -131,13 +135,77 @@ const newTag=ref('')
 
 const file=ref(null)
 const fileChange=(e)=> {
+
   file.value= e.target.files[0];
+
   if (file.value==null) {
     alert('请先选择需要上传的文件!');
     return;
   }
+
   console.log("文件已选择："+file.value.name)
   showUpload.value=false
+
+  getUploadAuthApi().then(res => {
+
+    // 上传文件
+    const observer = {
+      next(res){
+        authProgress.value=Math.trunc(res.total.percent)
+      },
+      error(err){
+        console.log(err)
+      },
+      // eslint-disable-next-line no-unused-vars
+      complete(res){
+        console.log("上传成功，返回消息："+res+'文件：http://s3hhuwkww.hd-bkt.clouddn.com/'+ +fileName.value)
+        form.value.videoId=fileName.value
+        console.log("coverUrl:"+'http://s3hhuwkww.hd-bkt.clouddn.com/'+ +fileName.value)
+      }
+    }
+    fileName.value= new Date().getTime();
+    const observable = qiniu.upload(file.value, fileName.value, res.data, {}, {})
+    // eslint-disable-next-line no-unused-vars
+    const subscription = observable.subscribe(observer) // 上传开始
+    // subscription.unsubscribe() // 上传取消
+  })
+      .catch(err => {
+        console.log('获取上传 token 失败'+err)
+      })
+
+}
+
+
+const updateCoverUrl = (value) => {
+  form.value.coverUrl=value;
+  console.log("封面是："+value)
+}
+
+const submitForm=()=>{
+  console.log("表单"+form.value)
+  formRef.value.validate(valid=>{
+    if (valid) {
+
+      addVideoApi(form.value)
+          .then(response => {
+            if (response.data.data) {
+              // 成功后的跳转逻辑，可以使用页面重定向或者编程式导航
+
+
+            } else {
+
+              alert('接口异常');
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+
+    } else {
+      console.log('error submit!!');
+      return false;
+    }
+  })
 }
 
 

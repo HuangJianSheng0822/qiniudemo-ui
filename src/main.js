@@ -6,6 +6,7 @@ const app = createApp(App);
 app.config.globalProperties.$axios = axios;
 axios.defaults.baseURL='http://192.168.31.248:8080';
 
+
 import router from './router/router.js'
 app.use(router)
 

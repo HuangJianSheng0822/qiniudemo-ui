@@ -16,9 +16,10 @@
 // 上传方法
 import * as qiniu from "qiniu-js";
 import axios from "axios";
-import {ref} from "vue";
+import {ref,defineEmits} from "vue";
 const isShow=ref(false);
 const fileName=ref(null);
+const emits=defineEmits(['fileName']);
 const uploadFile=(uploadInfo)=>{
   console.log(uploadInfo)
   axios.get("/up/token")
@@ -37,6 +38,7 @@ const uploadFile=(uploadInfo)=>{
           complete(res){
             isShow.value=true;
             console.log("上传成功，返回消息："+res+'文件：http://s3hhuwkww.hd-bkt.clouddn.com/'+ +fileName.value)
+            emits('fileName',fileName.value);
           }
         }
         fileName.value= new Date().getTime();

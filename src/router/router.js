@@ -11,6 +11,7 @@ import UploadContent from "@/view/upload-content.vue";
 import VideoUpload from "@/components/video-upload.vue";
 import CreateInfo from "@/components/create-info.vue";
 import VideoManage from "@/components/video-manage.vue";
+import VideoPlayView from "@/view/video-play-view.vue";
 
 
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
     {
         path: "/home",
         component:HomeView
+    },
+    {
+        path: "/playing/:id/:userId",
+        name: "playing",
+        component:VideoPlayView
     },
     {
         path: "/content",

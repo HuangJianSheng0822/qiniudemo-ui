@@ -4,7 +4,7 @@
             <div class="feed-card">
                 <div class="video-card">
                     <router-link :to="'/playing/'+item.id+'/'+item.userId">
-                        <img :src="item.coverUrl" alt=""/>
+                        <img :src="rootUrl+item.coverUrl" alt=""/>
                     </router-link>
 
                 </div>
@@ -43,6 +43,8 @@
 
 <script setup>
 import {defineProps} from 'vue'
+import {getRootUrl} from "@/util/qiniu";
+const rootUrl=getRootUrl();
 // eslint-disable-next-line no-unused-vars
 const fatherData = defineProps({
     items: {

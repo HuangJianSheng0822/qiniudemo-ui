@@ -16,7 +16,6 @@
         <!--右边的热门推荐-->
         <div class="hot-right">
           <video-info-list :items="pageData"></video-info-list>
-
         </div>
       </div>
     </div>
@@ -32,6 +31,7 @@ import HomeTopBar from "@/components/home-top-bar.vue";
 import VideoInfoList from "@/components/video-info-list.vue";
 import {onMounted, onUnmounted, ref} from "vue";
 import CarouselView from "@/components/carousel-view.vue";
+import {getVideoCoverList} from "@/api/video";
 
 const pageData = ref([])
 
@@ -44,6 +44,15 @@ function loadMore() {
     readyForLoad = false; //进来了就"锁上"
     page.value++
     console.log("请求:" + page.value)
+    getVideoCoverList(page.value, 12)
+        .then(res => {
+          console.log("list:" + res.data.data.length)
+          pageData.value.push(...res.data.data)
+          console.log("pageData:" + pageData.value.length)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     readyForLoad = true;
   }
 }

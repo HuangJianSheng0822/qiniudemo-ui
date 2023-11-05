@@ -17,4 +17,16 @@ function getCoverListSelfApi(page,size){
         }
     })
 }
-export {getVideoCoverList,getVideoInfoApi,updatePlayCountApi,getCoverListSelfApi}
+
+function getUploadAuthApi(){
+    return axios.get("/up/token");
+}
+
+function addVideoApi(form){
+    return axios.post('/video/add', form,{
+        headers: {
+            'Authorization': localStorage.getItem("jwt")
+        }
+    })
+}
+export {getVideoCoverList,getVideoInfoApi,updatePlayCountApi,getCoverListSelfApi,getUploadAuthApi,addVideoApi}
