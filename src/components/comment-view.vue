@@ -4,7 +4,7 @@
     <div v-for="(item,index) in rootCommentList" :key="index">
       <div class="comment">
         <div class="avatar">
-          <img :src="item.headImg">
+          <img :src="rootUrl+item.headImg">
         </div>
         <div class="comment-content">
           <div class="comment-root-area">
@@ -32,7 +32,7 @@
             <div>
               <div class="comment-children-area">
                 <div class="avatar">
-                  <img :src="childItem.headImg">
+                  <img :src="rootUrl+childItem.headImg">
                 </div>
                 <div class="child-box">
                   <div class="comment-child-info">
@@ -78,7 +78,7 @@
           </div>
 
           <div class="reply-com" :class="{active:activeIndex===index}">
-            <reply-comment :base-data="baseReplyCommentData" :head-img="parentData.headImg" @update-comment="loadMore"></reply-comment>
+            <reply-comment :base-data="baseReplyCommentData" :head-img="rootUrl+parentData.headImg" @update-comment="loadMore"></reply-comment>
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
     </div>
   </div>
   <div v-else>
-    <reply-comment :base-data="baseReplyCommentData" :head-img="parentData.headImg"
+    <reply-comment :base-data="baseReplyCommentData" :head-img="rootUrl+parentData.headImg"
                    @update-comment="loadMore"></reply-comment>
   </div>
 
@@ -97,7 +97,8 @@
 import {defineProps, ref, reactive, onMounted, onUnmounted} from "vue";
 import ReplyComment from "@/components/reply-comment.vue";
 import {getChildCommentsApi, getRootCommentApi} from "@/api/comment";
-
+import {getRootUrl} from "@/util/qiniu";
+const rootUrl=getRootUrl();
 //const rootComment=ref('');
 const parentData=defineProps({
   id:{

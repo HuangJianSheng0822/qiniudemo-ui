@@ -100,6 +100,7 @@ import {ref} from "vue";
 import UploadImgQiniu from "@/components/qiniu/upload-img-qiniu.vue";
 import {addVideoApi, getUploadAuthApi} from "@/api/video";
 import * as qiniu from "qiniu-js";
+import router from "@/router/router";
 const showUpload=ref(true); //是否显示上传界面
 const authProgress=ref(0) // 上传进度
 // eslint-disable-next-line no-unused-vars
@@ -190,7 +191,7 @@ const submitForm=()=>{
           .then(response => {
             if (response.data.data) {
               // 成功后的跳转逻辑，可以使用页面重定向或者编程式导航
-
+              router.push('/home');
 
             } else {
 

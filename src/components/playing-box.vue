@@ -47,7 +47,7 @@ const addText = (nowTxt) => {
   if (nowTxt !== '') {
     texts.value.push({
       txt: nowTxt,
-      x: canvas.value.width,
+      x: canvas.value.width==undefined?500:canvas.value.width,
       y: Math.random() * (canvas.value.height - 16) + 16,
       color: nowColor.value
     });
@@ -87,6 +87,7 @@ const sendBarrage=()=>{
   barrageData.value.schedule=formattedTime
   const dataToSend = JSON.stringify(barrageData.value);
   webSocket.send(dataToSend);
+  barrageData.value.content=null;
 }
 onMounted(() => {
   videoPlayerRef.value = document.querySelector('video');
@@ -197,13 +198,7 @@ const rootUrl=getRootUrl();
       </div>
     </div>
     <div class="video-desc">{{ fatherData.videoInfo.description }}</div>
-    <div class="video-tags">
-      <!--
-      <div v-for="tag in fatherData.videoInfo.tags" :key="tag" class="tag" @mouseover="handleMouseOver(tag)" @mouseleave="handleMouseLeave(tag)">
-        {{ tag }}
-      </div>
-      -->
-    </div>
+
   </div>
 </template>
 

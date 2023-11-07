@@ -5,7 +5,7 @@
     </div>
     <!--首页顶部壁纸-->
     <div class="banner">
-      <img src="@/assets/img/p1_1.jpg">
+      <img src="@/assets/img/p2.jpg">
     </div>
     <!--热门推荐-->
     <div class="hot-activity-box">

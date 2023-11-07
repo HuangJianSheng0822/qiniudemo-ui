@@ -20,6 +20,9 @@
         <div class="author-info-container">
           <user-card :user-info="userInfo"></user-card>
         </div>
+        <div class="bui-area">
+          <barrage-list :id="id"></barrage-list>
+        </div>
         <div class="next-list">
           <recommend-list></recommend-list>
         </div>
@@ -35,6 +38,7 @@ import PlayingTitle from "@/components/playing-title.vue";
 import PlayingBox from "@/components/playing-box.vue";
 import CommentView from "@/components/comment-view.vue";
 import HomeTopBar from "@/components/home-top-bar.vue";
+import BarrageList from "@/components/barrage-list.vue";
 import UserCard from "@/components/user-card.vue";
 import {useRoute} from "vue-router";
 import {ref} from "vue";

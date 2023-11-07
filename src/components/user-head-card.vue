@@ -6,7 +6,7 @@
 			@mouseover="handleMouseOver"
 			@mouseleave="handleMouseLeave"
 		>
-			<img :src="avatarUrl"/>
+			<img :src="rootUrl+avatarUrl"/>
 			<div v-if="isHovered&&isLogin" class="card">
 				<div class="user-id">{{ userInfo.name }}</div>
 				<div class="card-content">
@@ -47,9 +47,12 @@
 import {ref} from "vue";
 import {hasLogin} from "@/util/hasLogin";
 import {getUserSelf} from "@/api/user";
-
+import {getRootUrl} from "@/util/qiniu";
+import {useRouter} from "vue-router";
+const router = useRouter();
+const rootUrl=getRootUrl();
 const isLogin=hasLogin()
-const avatarUrl = ref("https://bilibilicloud.oss-cn-beijing.aliyuncs.com/v2-0f298674e2d33723d8022df7ac26e17f_r.jpg");
+const avatarUrl = ref("1699102514542");
 
 const isHovered = ref(false);
 const userInfo=ref({
@@ -74,6 +77,11 @@ const handleMouseOver = () => {
 const handleMouseLeave = () => {
 	isHovered.value = false;
 };
+
+const logout=()=>{
+  router.push('/login');
+  localStorage.removeItem('token')
+}
 </script>
 
 <style scoped>

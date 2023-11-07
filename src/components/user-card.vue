@@ -2,7 +2,7 @@
   <div class="author-info-container">
     <div class="user-info">
       <div class="avatar">
-        <img :src="fatherData.userInfo.headImg" alt="用户头像">
+        <img :src="rootUrl+fatherData.userInfo.headImg" alt="用户头像">
       </div>
       <div class="details">
         <div class="name">{{ fatherData.userInfo.name }}</div>
@@ -16,7 +16,8 @@
 
 <script setup>
 import { defineProps } from 'vue';
-
+import {getRootUrl} from "@/util/qiniu";
+const rootUrl=getRootUrl();
 const fatherData = defineProps({
   userInfo:{
     type:Object,

@@ -1,7 +1,8 @@
 <script setup>
 import {ref} from "vue";
 import {getVideoCoverList} from "@/api/video";
-
+import {getRootUrl} from "@/util/qiniu";
+const rootUrl=getRootUrl();
 const videoList=ref([]);
 
 getVideoCoverList(0,10)
@@ -20,7 +21,7 @@ getVideoCoverList(0,10)
     <div class="list">
       <div class="box" v-for="(item,index) in videoList" :key="index">
         <div class="left">
-          <img :src=item.coverUrl>
+          <img :src=rootUrl+item.coverUrl>
         </div>
         <div class="right">
           <div class="video-title">{{item.title}}</div>

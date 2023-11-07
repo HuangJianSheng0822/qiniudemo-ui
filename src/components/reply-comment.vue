@@ -1,7 +1,7 @@
 <template>
 <div class="root">
   <div class="head-box">
-    <img :src="userInfo.headImg" alt="">
+    <img :src="rootUrl+userInfo.headImg" alt="">
   </div>
 
   <div class="input-box">
@@ -32,7 +32,8 @@
 import {ref,defineProps,defineEmits} from "vue";
 import {addCommentApi} from "@/api/comment";
 import {getUserSelf} from "@/api/user";
-
+import {getRootUrl} from "@/util/qiniu";
+const rootUrl=getRootUrl();
 const userInfo=ref({
   "headImg":''
 })
